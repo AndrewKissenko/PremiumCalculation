@@ -15,23 +15,25 @@ namespace PremiumCalculation
             Employee victoria = new Employee() { Id = 2, Age = 23, Gender = 'f' };
             DateTime policyEndDate= new DateTime(2020, 6, 1);
             EmployeePaymentCalculator paymentCalculator = new EmployeePaymentCalculator();
-            //try
-            //{
-            //    var res = paymentCalculator.CalculatePremium(
-            //        andrew,
-            //        new FullAgeRate(),
-            //        new ProrateDaysPremium(),
-            //        policyEndDate);
-            //    Console.WriteLine(res.Item1);
-            //    Console.WriteLine(res.Item2);
-            //    Console.WriteLine(res.Item3);
 
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex.Message);
-            //}
+            //Implementation #1
+            try
+            {
+                var res = paymentCalculator.CalculatePremium(
+                    andrew,
+                    new FullFlatRate(),
+                    new ProrateDaysPremium(),
+                    policyEndDate);
+                Console.WriteLine(res.Item1);
+                Console.WriteLine(res.Item2);
+                Console.WriteLine(res.Item3);
 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            //Implementation #2
             try
             {
                 var res = paymentCalculator.CalculatePremium(andrew, PricingModels.FullAgeRate, ProrateModels.ProrateDaysPremium, policyEndDate);

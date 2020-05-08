@@ -10,6 +10,8 @@ namespace PremiumCalculation.Models
     public class FullGenderAgeRate : FullAgeRate,IFullRate
     {
         public FullGenderAgeRate() { }
+        
+        //Retrive  Anual employee's rate by age and gender
         public double CalcFullPremium(char gender, int age)
         {
             if (gender != 'm' && gender != 'f') return 0;

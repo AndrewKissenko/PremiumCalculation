@@ -8,6 +8,5 @@ namespace PremiumCalculation.Models.Interface
 {
   public interface IFullRate
     {
-        
     }
 }

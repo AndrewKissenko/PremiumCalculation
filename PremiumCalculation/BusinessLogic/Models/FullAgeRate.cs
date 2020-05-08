@@ -10,6 +10,7 @@ namespace PremiumCalculation.Models
     public class FullAgeRate:IFullRate
     {
         public FullAgeRate() { }
+        //Retrive  Anual employee's rate by age
         public  double CalcFullPremium(int age)
         {
             var formulala = (age / 10 + 1) * age * 100;

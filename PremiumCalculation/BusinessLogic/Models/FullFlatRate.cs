@@ -10,6 +10,7 @@ namespace PremiumCalculation.Models
     public class FullFlatRate:IFullRate
     {
         public FullFlatRate() { }
+        //Retrive  Anual employee's flat rate
         public double CalcFullPremium()
         {
             return 1000;

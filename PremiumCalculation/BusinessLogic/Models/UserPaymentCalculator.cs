@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace PremiumCalculation.Models
 {
+
    public enum PricingModels
     {
         FullFlatRate,
@@ -21,51 +22,39 @@ namespace PremiumCalculation.Models
    public class EmployeePaymentCalculator
     {
         public EmployeePaymentCalculator() { }
+        //Implementation #1
         public (int,double,double) CalculatePremium(Employee employee,IFullRate fullRateModel, IProratePremium proratePremiumModel, DateTime policyEndDate)
         {
             double fullPremium = 0;
             double proratePremium = 0;
-
+            //policy end date validation
             if (policyEndDate <= DateTime.Now) throw new Exception($"Inner exception occured.POLICY END DATE CANNOT BE LESS THAN {DateTime.Now.Date}");
 
+            //cast types to retrieve the model 
             if (fullRateModel is FullFlatRate flatRateModel) fullPremium = flatRateModel.CalcFullPremium();
             else if (fullRateModel is FullGenderAgeRate genderAgeRateModel) fullPremium = genderAgeRateModel.CalcFullPremium(employee.Gender, employee.Age);
             else if (fullRateModel is FullAgeRate ageRateModel) fullPremium = ageRateModel.CalcFullPremium(employee.Age);
            
-
+            //user sex validation
             if (fullPremium == 0) throw new Exception("Inner exception occured. Employee's age or sex invalid");
 
             proratePremium = proratePremiumModel.CalcProratePremium(fullPremium, policyEndDate);
 
             return (employee.Id, fullPremium, proratePremium);
         }
-        //if we want to use Enum then we need no interfaces
-        //public (int, double, double) CalculatePremium(Employee employee,PricingModels pricingModels, ProrateModels prorateModels, DateTime policyEndDate)
-        //{
-        //    double fullPremium = 0;
-        //    double proratePremium = 0;
-
-        //    if (policyEndDate <= DateTime.Now) throw new Exception($"Inner exception occured.POLICY END DATE CANNOT BE LESS THAN {DateTime.Now.Date.Add(TimeSpan.FromDays(1))}");
-
-        //    if (pricingModels == PricingModels.FullAgeRate) fullPremium = new FullAgeRate().CalcFullPremium(employee.Age);
-        //    else if (pricingModels == PricingModels.FullFlatRate) fullPremium = new FullFlatRate().CalcFullPremium();
-        //    else fullPremium = new FullGenderAgeRate().CalcFullPremium(employee.Gender,employee.Age);
-
-        //    if (fullPremium == 0) throw new Exception("Inner exception occured. Employee's age or sex invalid");
-
-        //    if (prorateModels == ProrateModels.ProrateDaysPremium) proratePremium = new ProrateDaysPremium().CalcProratePremium(fullPremium, policyEndDate);
-        //    else proratePremium = new ProrateMonthPremium().CalcProratePremium(fullPremium, policyEndDate);
-
-        //    return (employee.Id, fullPremium, proratePremium);
-        //}
+        //Implementation #2
+        //This implementation is more suitable for run time ...https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2010/ms182128(v=vs.100)?redirectedfrom=MSDN
         public (int, double, double) CalculatePremium(Employee employee, PricingModels pricingModels, ProrateModels prorateModels, DateTime policyEndDate)
         {
+            //policy end date validation
             if (policyEndDate <= DateTime.Now) throw new Exception($"Inner exception occured.POLICY END DATE CANNOT BE LESS THAN {DateTime.Now.Date.Add(TimeSpan.FromDays(1))}");
 
             double fullPremium = CalculateFullRate(employee, pricingModels);
             double proratePremium = 0;
             ProrateDaysPremium _prorateDaysPremium = null;
             ProrateMonthPremium _prorateMonthPremium = null;
+
+            //user sex validation
             if (fullPremium == 0) throw new Exception("Inner exception occured. Employee's age or sex invalid");
 
             if (prorateModels == ProrateModels.ProrateDaysPremium)

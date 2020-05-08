@@ -10,6 +10,7 @@ namespace PremiumCalculation.Models
     public class ProrateDaysPremium : IProratePremium
     {
         public ProrateDaysPremium() { }
+        //Retrive  prorate amount by days
         public double CalcProratePremium(double fullPremiumAmount, DateTime policyEndDate)
         {
             if (policyEndDate <= DateTime.Now) return 0;
@@ -21,6 +22,7 @@ namespace PremiumCalculation.Models
             }
             return 0;
         }
+        //Check days num in a year
         private bool IsLeapYear(int year)
         {
             if (year % 4 != 0 || (year % 100 == 0 && year % 400 != 0)) return false;

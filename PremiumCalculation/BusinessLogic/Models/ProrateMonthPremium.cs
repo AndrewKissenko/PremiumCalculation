@@ -10,6 +10,7 @@ namespace PremiumCalculation.Models
    public class ProrateMonthPremium : IProratePremium
     {
         public ProrateMonthPremium() { }
+        //Retrive  prorate amount by months
         public double CalcProratePremium(double fullPremiumAmount, DateTime policyEndDate)
         {
             if (policyEndDate <= DateTime.Now) return 0;
